@@ -1,0 +1,42 @@
+.char_list {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.char_item {
+    list-style: none;
+    margin: 50px;
+}
+
+.char_image {
+    border-radius: 50%;
+}
+
+header {
+    text-align: center;
+}
+
+footer {
+    text-align: center;
+}
+
+.char_button {
+    text-align: center;
+}
+
+.char_name, .char_species, .char_status {
+    text-align: center;
+}
+
+body {
+    font-family: sans-serif;
+}
+
+#button {
+    padding: 20px;
+    border-radius: 10px;
+    border: none;
+    font-weight: bold;
+}
