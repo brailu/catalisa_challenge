@@ -1,77 +1,69 @@
-// 1 coisa a se fazer, gerar 3 ids aleatorios.
-// o id possue o min de 1 até 671 personagens.
+// script.js
+// 
+// Get random characters from Rick and Morty API and renders.
+//
+// Rick and Morty API let you get multiple characters: 
+// https://rickandmortyapi.com/documentation/#get-multiple-characters
+//
+// Author: https://github.com/brailu
 
-function generate_random_value() {
-    const random_value = Math.floor(Math.random() * 671);
-    return random_value;
-}
 
-function generate_random_values() {
+// Return 3 random values (array) between 1 and 671.
+generate_random_values = () => {
+    const max_id = 671;
     let random_values = [];
     for (let i = 0; i < 3; i++) {
-        random_values[i] = generate_random_value();
+        random_values[i] = Math.floor(Math.random() * max_id);
     }
     return random_values;
 }
 
-// 2 chamar as API e obter 3 personagens.
-function get_characters() {
-    let random_values = generate_random_values();
-    let endpoint = "https://rickandmortyapi.com/api/character/" + random_values.join();
+// Get and return 3 random characters (array) from API.
+// Using arrow function '=>'
+get_characters = () => {
+
+    // Example: https://rickandmortyapi.com/api/character/1,2,3
+    const endpoint = "https://rickandmortyapi.com/api/character/" + generate_random_values().join();
+
     return fetch(endpoint, {
         method: "GET", 
         headers: {
             "Accept": "application/json",
             "Content-type": "application/json"
         }
-    }).then(function (response) {
-        response.json().then(function (data) {
-            render_characters(data);
+    }).then((response) => {
+        // Convert response (array) to JSON
+        response.json().then((json_response) => {
+            // Render characters using JSON response (array)
+            render_characters(json_response);
         });
     })
 }
 
-// 3 alterar elementos html.
-function render_characters(character_data) {
+// Renders 3 characters from JSON response
+render_characters = (characters) => {
     for (let i = 0; i < 3; i++) {
-        const element_id = "#character" + i;
-        const element = document.querySelector(element_id);
+        // Get char element by id (li)
+        const char = document.querySelector("#char" + i);
 
-        const img = element.querySelector("img");
-        img.src = character_data[i].image;
+        // Get char image element and set src and alt
+        const char_image = char.querySelector(".char_image");
+        char_image.src = characters[i].image;
+        char_image.alt = characters[i].name;
 
-        const name = element.querySelector(".character_name");
-        name.innerHTML = character_data[i].name;
+        // Get char name element and set src and alt
+        char.querySelector(".char_name").innerHTML = characters[i].name;
 
-        const species = element.querySelector(".character_species");
-        species.innerHTML = character_data[i].species;
+        // Get char species element and set src and al
+        char.querySelector(".char_species").innerHTML = characters[i].species;
 
-        const status = element.querySelector(".character_status");
-        status.innerHTML = character_data[i].status;
-               
+        // Get char status element and set src and alt
+        char.querySelector(".char_status").innerHTML = characters[i].status;  
     }
 }
 
-// created: "2017-12-29T17:14:03.430Z"
-// episode: ['https://rickandmortyapi.com/api/episode/7']
-// gender: "Female"
-// id: 168
-// image: "https://rickandmortyapi.com/api/character/avatar/168.jpeg"
-// location: {name: 'Gazorpazorp', url: 'https://rickandmortyapi.com/api/location/40'}
-// name: "Jackie"
-// origin: {name: 'Gazorpazorp', url: 'https://rickandmortyapi.com/api/location/40'}
-// species: "Alien"
-// status: "Alive"
-// type: "Gazorpian"
-// url: "https://rickandmortyapi.com/api/character/168"
-
-// API permite obter mais de um personagem por vez.
-// https://rickandmortyapi.com/documentation/#get-multiple-characters
-// necessario gerar 3 ID aleatorios.
-
+// Get the initial characters when the page is loaded
 get_characters();
 
-// criação do botão para interação do usuario
-const button = document.querySelector("#button");
-
-button.onclick = get_characters;
+// Configure the button to get characters
+document.querySelector("#button").onclick = get_characters;
